@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前端经典算法题</title>
+</head>
+<body>
+   
+</body>
+<script>
+   // <!--转化为驼峰命名 -->
+
+   function getCamelCase(str) {
+    var arr = str.split( '-' );
+    console.log(arr)
+
+    return arr.map( function( item, index ) {
+        console.log(item)
+        if( index === 0 ){
+            return item;
+        }else{
+            return item.charAt(0).toUpperCase() + item.slice( 1 );
+        }
+    }).join('');
+}
+    console.log(getCamelCase("xiaoshuo-ss-sfff-fe"))
+
+    // 数组去重
+    function qc(arr){
+        var n = []; //一个新数组
+        for(var i = 0;i<array.length;i++){         //也可以写x in array   x是迭代序号
+            if(n.indexOf(array[i) === -1){  //检测到没有  则添加
+                n.push(array[i)
+                }
+            }
+        return n;
+        }
+        // 统计字符串中出现最多的字母
+        function getChar(str) {
+            if (typeof str !== 'string') return // 判断参数是否为字符串
+            const obj = new Object() // 键为字母，值为次数
+            for (let i = 0; i < str.length; i ++) { // 遍历字符串每一个字母
+                let char = str.charAt(i) // 当前字母
+                obj[char] = obj[char] || 0 // 保证初始值为0
+                obj[char] ++ // 次数加1
+            }
+            let maxChar // 存储字母
+            let maxNum = 0 // maxChar字母对应的次数
+            for(let key in obj) { // 遍历obj
+                if (obj[key] > maxNum) {
+                    maxChar = key // 比较后存储次数多的字母
+                    maxNum = obj[key] // 以及它对应的次数
+                }
+            }
+            return maxChar // 返回结果
+        }
+        // 深拷贝
+
+        // 浅拷贝只需要Object.assign();
+        // 符合json要求（双引号）的对象深拷贝：
+        // JSON.parse(JSON.stringify(obj)
+
+        // 不严格符合json的对象的深拷贝：
+        function  deepCopy(src, r) {
+        var r = r || {};
+        for(var prop in src){
+            // console.log(prop)
+            if(typeof src[prop] === 'object'){ // 是对象  需要深拷贝
+                if (src[prop].constructor === Array){
+                    // console.log("数组");
+                    r[prop]=[];
+                }else{
+                    // console.log("对象");
+                    r[prop]={};
+                }
+                deepCopy(src[prop], r[prop]);
+            }else{ // 非对象，直接拷贝
+                r[prop] = src[prop];
+            }
+        }
+        return r;
+    }
+    // 合并多个有序数组 不考虑去重：
+    var arr = [[1, 2], [0, 3, 5], [-1, 4]];
+    arr = arr
+    .reduce((a, b) => a.concat(b), [])
+    .sort((a, b) => a - b); // 如果需要从小到大排序加上这个
+    
+    console.log(arr);   //  输出 [-1, 0, 1, 2, 3, 4, 5]
+
+    // 数组排序
+    var arr = [1,25,3,85,4,0]
+    arr.sort((m,n)=>{
+    if(m>n){
+        return 1       //顺序改变
+    }else{
+        return -1        //顺序不改变
+    }
+    })
+    console.log(arr)  // [0, 1, 3, 4, 25, 85]
+
+    // 也可以简化为
+    var arr = [1,25,3,85,4,0]
+    arr.sort((m,n)=>{
+    if(m>n){
+        return m-n   // m若大于n，m-n则是正数，反正是负数  和上面一样道理
+    }})
+    console.log(arr)  // [0, 1, 3, 4, 25, 85]
+
+    // 同理：
+    // [{'name': '张三', age: 16},{'name': '李四', age: 45},{'name': '王五', age: 19},{'name': '赵六', age: 6}]  按年龄排序
+    var arr = [{'name': '张三', age: 16},{'name': '李四', age: 45},{'name': '王五', age: 19},{'name': '赵六', age: 6}]
+    arr.sort((m,n)=>{
+        if(m.age>n.age){
+            return m.age-n.age
+        }
+    })
+    console.log(arr)    // [{name: "赵六", age: 6},{name: "张三", age: 16},{name: "王五", age: 19},{name: "李四", age: 45}]
+</script>
+</html>

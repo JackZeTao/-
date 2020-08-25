@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>响应式页面</title>
+</head>
+<style>
+    *{
+        box-sizing: border-box;
+    }
+    body{
+        margin: 0;
+        padding: 0;
+    }
+/*      content-box
+        这是由 CSS2.1 规定的宽度高度行为。
+        宽度和高度分别应用到元素的内容框。
+        在宽度和高度之外绘制元素的内边距和边框。
+        border-box
+        为元素设定的宽度和高度决定了元素的边框盒。
+        就是说，为元素指定的任何内边距和边框都将在已设定的宽度和高度内进行绘制。
+        通过从已设定的宽度和高度分别减去边框和内边距才能得到内容的宽度和高度
+        inherit
+        规定应从父元素继承 box-sizing 属性的值。
+    */
+    .header{
+        padding: 80px;
+        text-align: center;
+        color: black;
+        background: beige;
+    }
+    .header h1{
+        font-size: 40px;
+    }
+    .navbar{
+        overflow: hidden;
+        background: #333;
+    }
+    .navbar a{
+        float: left;
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 20px;
+    }
+    .navbar a.right{
+        float: right;
+    }
+    .navbar a:hover{
+        color: #ddd;
+        background: black;
+    }
+/*    列 容器*/
+    .row{
+        display: flex;
+        display: -ms-flex; /* ie10*/
+        flex-wrap: wrap;
+        -ms-flex-wrap:wrap ;
+    }
+/*    ”弹性布局” 使父容器能够调节子元素的宽度/高度（和排列顺序）主要是为了适应所有类型的显示设备和屏幕尺寸*/
+/*
+    flex-wrap:no-wrap/wrap/wrap-reverse  (不换行/换行第一行在上方/换行第一行在下方)
+
+*/
+    .side{
+        -ms-flex: 30%;  /* ie10*/
+        flex: 30%;
+        background: #f1f1f1;
+        padding: 20px;
+    }
+    .main{
+        -ms-flex: 70%;  /* ie10*/
+        flex: 70%;
+        background: white;
+        padding: 20px;
+    }
+    .fakeimg{
+        padding: 20px;
+        width: 100%;
+        padding: 20px;
+    }
+    .footer{
+        padding: 20px;
+        text-align: center;
+        background: #ddd;
+     }
+/*    响应式布局 - 在屏幕设备尺寸小于700px。让两栏上下堆叠显示*/
+    @media screen and (max-width: 700px) {
+        .row{
+            flex-direction: column;
+        }
+    }
+    @media screen and (max-width: 400px) {
+        .navbar a{
+            float: none;
+            width: 100%;
+        }
+    }
+/*
+    display:flex
+    flex-direction:row(默认值)/row-reverse/column/column-reverse
+    row ：是默认值主轴为水平方向，起点在左端
+    row-reverse： 主轴为水平方向，起点在右端
+    column：主轴为垂直方向起点在上延
+     column-reverse：主轴为垂直方向起点在下延
+*/
+</style>
+<body>
+    <div class="header">
+        <h1>菜鸟教程网页测试实例</h1>
+        <p>创建一个页面</p>
+    </div>
+    <div class="navbar">
+        <a href="#">链接</a>
+        <a href="#">链接</a>
+        <a href="#">链接</a>
+        <a href="#">链接</a>
+        <a href="#" class="right">链接</a>
+    </div>
+    <div class="row">
+        <img src="" alt="">
+        <div class="side">
+            <h2>关于我</h2>
+            <h5>我的照片</h5>
+            <div class="fakeimg" style="height: 200px">这边插入图片</div>
+            <p>关于我的介绍</p>
+            <h3>更多内容</h3>
+            <p>我的更多内容</p>
+            <div id="fakeimg" style="height: 60px">这边插入图像</div>
+            <div id="fakeimg" style="height: 60px">这边插入图像</div>
+            <div id="fakeimg" style="height: 60px">这边插入图像</div>
+        </div>
+        <div class="main">
+            <h2>标题</h2>
+            <h5>副标题</h5>
+            <div id="fakeimg" style="height: 200px">图像</div>
+            <p>一些文本</p>
+            <p>响应式设计的步骤：
+                1.设置meta标签：大多数的浏览器将html页面放大为宽的视图（viewport）以符合屏幕分辨率，
+                <meta name="viewport" content="width = device-width，initial-scale=1，user-scalable=0">
+                上面的标签告诉浏览器 ，使用设备的宽度作为视图的宽度并且禁止初始的缩放
+
+                2.通过媒介查询来设置样式@media 响应式设计的核心就是@media
+                @media screen and （max-width：980px）{
+                    #header{}
+                    #content{}
+                    #footer{}
+                }
+                通过尺寸来设置样式
+                3.宽度需要使用百分比
+                例如：#header{ width:100%}
+                     #content{width:50%}
+                处理图片缩放的方法 可以使用 百分比 但是 不友好，会放大或者缩小图片
+                可以给图片最大的宽为百分比
+            </p>
+            <br>
+            <h2>标题</h2>
+            <h5>副标题</h5>
+            <div id="fakeimg" style="height: 200px">图片</div>
+            <p>一些文本</p>
+            <p>前端现在学的不仅仅是页面，更是涉及到了各方面前端现在学的不仅仅是页面，更是涉及到了各方面前端现在学的不仅仅是页面，</p>
+        </div>
+
+    </div>
+    <div class="footer">
+        <h2>底部的内容</h2>
+    </div>
+</body>
+</html>

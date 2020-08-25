@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的es6应用</title>
+</head>
+<body>
+    <script>
+        //js 由三部分 组成 ecmascript规定了语言的组成部分：语法、类型、语句、关键字、保留字、操作符、对象
+        // bom 支持可以访问和操作浏览器窗口的浏览器对象模型  dom文档对象模型
+        // es5  增加了 严格模式 也就是'use strict'  增加了every、some 、forEach、filter 、indexOf、lastIndexOf、isArray、map、reduce、reduceRight方法
+
+//es6   ：
+        //增加了一种基本类型 Symbols Symbol是一种基本类型，通过调用symbol函数产生，它接收一个可选的名字参数 ，该函数返回的symbol是唯一的
+        // 在此之前  我们访问一个对象的属性的时候都是使用字符串
+        // symbol的应用场景：
+        // @1： 使用Symbol来作为对象属性名(key) Symbol类型的key是不能通过Object.keys()或者for...in来枚举
+        // @2  使用Symbol来替代常量
+        //@3   使用Symbol定义类的私有属性/方法
+        const PROP_NAME = Symbol()  ;
+
+        let obj = {
+            abc: 123,
+            "hello": "world",
+            [PROP_NAME]:'xiaoming'
+        }
+        console.log(obj["abc"]);   //boj.abc
+
+//        let   const：
+//         let 声明的变量只在 let 命令所在的代码块内有效/
+        //         let 只能声明一次 var 可以声明多次/
+        //         for 循环计数器很适合用 let/
+        //         let 不存在变量提升，var 会变量提升
+//         const 声明一个只读的常量，一旦声明，常量的值就不能改变。
+
+        // 解构赋值
+        // 解构赋值是对 赋值运算符 的扩展。他是一种针对数组或者对象进行模式匹配，然后对其中的变量进行赋值
+        //在解构中，有下面两部分参与
+        //   解构的源，解构赋值表达式的右边部分  解构的目标，解构赋值表达式的左边部分
+        //对数组的结构：
+        // let [a, b, c] = [1, 2, 3];   a = 1  b= 2  c = 3
+        // 当解构模式有匹配结果，且匹配结果是 undefined 时，会触发默认值作为返回结果
+        // 对对象的结构：
+        let { foo, bar } = { foo: 'aaa', bar: 'bbb' };
+        // 解构时分为匹配模式和被赋值的变量，若相同可简写，注意区分
+        // 被解构的对象的key，和后边被赋值的变量同名，可以简写。
+        let { matchValue } = { matchValue: 123 };
+        console.log(matchValue); //123
+                    // 等价于==
+        let { matchValue: matchValue } = { matchValue: 123 }
+
+        console.log(matchValue); //123
+
+        // 通过代码的高亮可以看出相互之间的对应关系。所以
+        let { matchValue: value } = { matchValue: 123 }
+        console.log(matchValue); //报错，未定义，这个只是匹配模式，不会被赋值
+        console.log(value); //123
+        // 首先解构赋值允许指定默认值，这为函数参数设置默认值提供基础
+        let [x, y = 'b'] = ['a']; // x='a', y='b'
+        let [x = 'a', y = 'b'] = ['aa', undefined]; // x='aa', y='b'
+
+        // 解构赋值 可以进行简单的浅拷贝
+        // 扩展运算符（...）可以用于合并两个对象
+        let aa = {
+            age: 18,
+            name: 'aaa'
+        }
+
+        let bb = {
+            sex: '男'
+        }
+        let cc = {...aa, ...bb};
+        // 等同于：
+        let cc = Object.assign({}, aa, bb);  //Object.assign 方法只会拷贝源对象自身的并且可枚举的属性到目标对象
+        //Object.assign() 方法用于将所有可枚举属性的值从一个或多个源对象复制到目标对象。它将返回目标对象。
+
+        // 箭头函数
+        var fn = function () {};// 普通函数的写法
+        var fn2 = (name) => {   //箭头函数的写法
+            console.log('fn2');
+        };
+        var fn3 = name => {  //  一个参数可以 不加括号
+            console.log('fn3');
+        }
+        setTimeout(function () {
+            console.log(this); // window
+        });
+        setTimeout(()=>{
+            console.log(this) //undefined
+        })
+        //在箭头函数中，this指向外面的对象
+        // 箭头函数不能通过new关键字来实例化
+        //promise
+        // 定义：
+        // Promise 是异步编程的一种解决方案，比传统的解决方案——回调函数和事件——更合理和更强大。
+        // 它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象
+
+            /*
+            * promise   对象代表了一个异步操作，有三种状态：pendding 进行中、fulfilled 已成功 、rejected 已失败
+            * 只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态
+            * Promise对象的状态改变，只有两种可能：从pending变为fulfilled和从pending变为rejected
+            * 只要这两种情况发生，状态就凝固了，不会再变了，会一直保持这个结果
+            *这时就称为 resolved（已定型）。如果改变已经发生了，你再对Promise对象添加回调函数，也会立即得到这个结果
+            * */
+            // 基本用法：
+        // promise 对象时一个构造函数用来生成promise 实例
+        // 那么怎么创建一个实例呢？
+        /**
+         * const promise =new Promise(function(resolve,reject){
+         *  if(异步操作成功){
+         *  resolve(value);
+         *  }else{
+         *  reject(error)
+         *  }
+         * })
+         */
+        //Promise实例生成以后，可以用then方法分别指定resolved状态和rejected状态的回调函数。
+        //then 方法接收两个回调函数作为参数，第一个回调函数是promise对象的状态改为resolved时调用
+        // 第二个是状态变为 rejected时调用，其中第二个函数是可选的
+            /*
+            promise.then(function(value) {
+              // success
+            }, function(error) {
+              // failure
+            });
+
+            */
+        // 简单的ajax原生实现
+        //var url = 'https://hq.tigerbrokers.com/fundamental/finance_calendar/getType/2017-02-26/2017-06-10';
+        // var result;
+        // 老版本的XMLHttpRequest对象
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'example.php');
+        xhr.send();
+        xhr.onreadystatechange = function(){
+            if ( xhr.readyState == 4 && xhr.status == 200 ) {
+                alert( xhr.responseText );
+            } else {
+                alert( xhr.statusText );
+            }
+
+        };
+        // var xhr = new XMLHttpRequest()
+        // xhr.open('GET','/jj/kk/ll')
+        // xhr.send();
+        // xhr,onreadystatechange = ()=>{
+        //     if(xhr.readyState==4 && xhr.status==200){
+        //
+        //     }
+        // }
+        // * xhr.readyState：XMLHttpRequest对象的状态，等于4表示数据已经接收完毕。
+        //
+        // * xhr.status：服务器返回的状态码，等于200表示一切正常。
+        //
+        // * xhr.responseText：服务器返回的文本数据
+        //
+        // * xhr.responseXML：服务器返回的XML格式的数据
+        //
+        // * xhr.statusText：服务器返回的状态文本。
+
+        // 老版本的XMLHttpRequest对象有以下几个缺点：
+
+        // * 只支持文本数据的传送，无法用来读取和上传二进制文件。
+        //
+        // * 传送和接收数据时，没有进度信息，只能提示有没有完成。
+        //
+        // * 受到"同域限制"（Same Origin Policy），只能向同一域名的服务器请求数据。
+        // 在ajax的原生实现中，利用了onreadystatechange事件，当该事件触发并且符合一定条件时，才能拿到想要的数据，之后才能开始处理数据
+
+        // 这样做看上去并没有什么麻烦，但如果这个时候，我们还需要另外一个ajax请求，这个新ajax请求的其中一个参数，得从上一个ajax请求中获取，
+        // 这个时候我们就不得不等待上一个接口请求完成之后，再请求后一个接口。如下：
+        // 例子：
+        // var url = 'https://hq.tigerbrokers.com/fundamental/finance_calendar/getType/2017-02-26/2017-06-10';
+        // var result;
+        // var XHR = new XMLHttpRequest();
+        // XHR.open('GET', url, true);
+        // XHR.send();
+        // XHR.onreadystatechange = function() {
+        //     if (XHR.readyState == 4 && XHR.status == 200) {
+        //         result = XHR.response;
+        //         console.log(result);
+        //         // 伪代码
+        //         var url2 = 'http:xxx.yyy.com/zzz?ddd=' + result.someParams;
+        //         var XHR2 = new XMLHttpRequest();
+        //         XHR2.open('GET', url, true);
+        //         XHR2.send();
+        //         XHR2.onreadystatechange = function() {
+        //         ...
+        //         }
+        //     }
+        // }
+        // 为了解决这种回调炼狱  1，可以使用函数封装的方法采用 调取函数的方式 进行调取利用函数调用栈的执行顺序
+        // function want() {
+        //     console.log('这是你想要执行的代码');
+        // }
+        //
+        // function fn(want) {
+        //     console.log('这里表示执行了一大堆各种代码');
+        //
+        //     // 其他代码执行完毕，最后执行回调函数
+        //     want && want();
+        // }
+        //
+        // fn(want);
+        // 2，可以使用队列机制
+        // function want() {
+        //     console.log('这是你想要执行的代码');
+        // }
+        //
+        // function fn(want) {
+        //     // 将想要执行的代码放入队列中，根据事件循环的机制，我们就不用非得将它放到最后面了，由你自由选择
+        //     want && setTimeout(want, 0);
+        //     console.log('这里表示执行了一大堆各种代码');
+        // }
+        //
+        // fn(want);
+        //那么什么是队列机制呢 ？
+        // Javascript语言的执行环境是单线程
+
+        // 所谓"单线程"，就是指一次只能完成一件任务。如果有多个任务，就必须排队，前面一个任务完成，再执行后面一个任务，以此类推。
+        // 这种模式的好处是实现起来比较简单，执行环境相对单纯；坏处是只要有一个任务耗时很长，后面的任务都必须排队等着，
+        // 会拖延整个程序的执行。常见的浏览器无响应（假死），往往就是因为某一段Javascript代码长时间运行（比如死循环），
+        // 导致整个页面卡在这个地方，其他任务无法执行。
+    //    为了解决这个问题，Javascript语言将任务的执行模式分成两种：同步（Synchronous）和异步（Asynchronous）
+
+        // Javascript是单线程的，但是却能执行异步任务，这主要是因为 JS 中存在事件循环（Event Loop）和任务队列（Task Queue）
+
+        // 事件循环：JS 会创建一个类似于 while (true) 的循环，每执行一次循环体的过程称之为Tick。
+        // 每次Tick的过程就是查看是否有待处理事件，如果有则取出相关事件及回调函数放入执行栈中由主线程执行。
+        // 待处理的事件会存储在一个任务队列中，也就是每次Tick会查看任务队列中是否有需要执行的任务。
+
+        // 任务队列：异步操作会将相关回调添加到任务队列中。而不同的异步操作添加到任务队列的时机也不同，如onclick, 
+        //     setTimeout,ajax 处理的方式都不同，这些异步操作是由浏览器内核的webcore来执行的，
+        // webcore包含下图中的3种 webAPI，分别是DOM Binding、network、timer模块
+        //
+        // DOM Binding 模块处理一些DOM绑定事件，如onclick事件对应的回调函数添加到任务队列中。
+        // timer 模块会对setTimeout等计时器进行延时处理，当触发时，回调函数会立即被webcore添加到任务队列中。
+        // network 模块处理Ajax请求，在网络请求返回时，才会将时间到达的时候，才会将回调函数添加到任务队列中。
+
+        // 在JS引擎中，我们可以按性质把任务分为两类，macrotask（宏任务）和 microtask（微任务）
+
+        // macrotask（按优先级顺序排列）: script(你的全部JS代码，“同步代码”）, setTimeout, setInterval,
+        //     setImmediate, I/O,UI rendering
+
+        // microtask（按优先级顺序排列）:process.nextTick,Promises（这里指浏览器原生实现的 Promise）,
+        // Object.observe, MutationObserver
+
+        //promise 是如何执行的呢 ？
+        new Promise(function(resolve,reject) {
+            console.log('starting.....')
+            var timeOut = Math.random() * 2;
+            console.log('set timeout to: ' + timeOut + ' seconds.');
+            setTimeout(function () {
+                if (timeOut < 1) {
+                    log('call resolve()...');
+                    resolve('200 OK');
+                }
+                else {
+                    log('call reject()...');
+                    reject('timeout in ' + timeOut + ' seconds.');
+                }
+            }, timeOut * 1000);
+        }).then(function (r) {
+            log('Done: ' + r);
+        }).catch(function (f) {
+            log('Failed: ' + f);
+        })
+
+
+    //    *************************************************对于es6的 模版字符串的理解*在*****************************
+    //     传统的 JavaScript 语言，输出模板通常是这样写的：
+        let name = 'zhangxiaotao'
+        console.log("我是"+name+"吗？") //传统写法
+        console.log(`我是${name}吗？`) // es6
+            // 普通字符串
+            `In JavaScript '\n' is a line-feed.`
+
+// 多行字符串
+            `In JavaScript this is
+            not legal.`
+
+        console.log(`string text line 1
+        string text line 2`);
+
+        // 字符串中嵌入变量
+        let name = "Bob", time = "today";
+        `Hello ${name}, how are you ${time}?`
+
+        // 传统上，JavaScript 只有indexOf方法，可以用来确定一个字符串是否包含在另一个字符串中。ES6 又提供了三种新方法
+        // includes()：返回布尔值，表示是否找到了参数字符串。
+        // startsWith()：返回布尔值，表示参数字符串是否在原字符串的头部。
+        // endsWith()：返回布尔值，表示参数字符串是否在原字符串的尾部
+        let s = 'Hello world!';
+
+        s.startsWith('Hello') // true  s.startsWith('Hello',3)
+        s.endsWith('!') // true    s.endsWith('!',3)
+        s.includes('o') // true    s.includes('o',4)
+
+        // 实例方法：repeat()
+        'x'.repeat(3) // "xxx"
+        'hello'.repeat(2) // "hellohello"
+        'na'.repeat(0) // ""
+        // 参数如果是小数，会被取整。
+        'na'.repeat(2.9) // "nana"
+
+        // 实例方法：padStart()，padEnd()
+
+    //    ES2017 引入了字符串补全长度的功能。如果某个字符串不够指定长度，会在头部或尾部补全。padStart()用于头部补全，padEnd()用于尾部补全。
+        'x'.padStart(5, 'ab') // 'ababx'
+        'x'.padStart(4, 'ab') // 'abax'
+
+        'x'.padEnd(5, 'ab') // 'xabab'
+        'x'.padEnd(4, 'ab') // 'xaba'
+
+        // 实例方法：trimStart()，trimEnd()
+        // 对字符串实例新增了trimStart()和trimEnd()这两个方法。它们的行为与trim()一致，
+        // trimStart()消除字符串头部的空格，trimEnd()消除尾部的空格。它们返回的都是新字符串，不会修改原始字符串
+        const s = '  abc  ';
+
+        s.trim() // "abc"
+        s.trimStart() // "abc  "
+        s.trimEnd() // "  abc"
+
+        // Number.isFinite(),/ Number.isNaN()    用来检测数值是不是 无限的/用来检查一个值是否为NaN】
+    //    如果参数类型不是数值，Number.isFinite一律返回false。
+            Number.isFinite(15); // true
+            Number.isFinite(0.8); // true
+            Number.isFinite(NaN); // false
+            Number.isFinite(Infinity); // false
+            Number.isFinite(-Infinity); // false
+            Number.isFinite('foo'); // false
+            Number.isFinite('15'); // false
+            Number.isFinite(true); // false
+        // 如果参数类型不是NaN，Number.isNaN一律返回false。
+            Number.isNaN(NaN) // true
+            Number.isNaN(15) // false
+            Number.isNaN('15') // false
+            Number.isNaN(true) // false
+            Number.isNaN(9/NaN) // true
+            Number.isNaN('true' / 0) // true
+            Number.isNaN('true' / 'true') // true
+
+    //    es6 逐步 将 全局方法 parseInt（）  parseFloat（）    转为Number的对象上
+    //    即  parseInt('12.34') // 12    等同于 Number.parseInt('12.34') // 12
+    //    parseFloat('12.34') // 12    等同于 Number.parseFloat('12.34') // 12
+
+    //    Number.isInteger()
+    //     Number.isInteger()用来判断一个数值是否为整数 如果参数不是数值，Number.isInteger返回false。
+
+        // ES6 引入 rest 参数（形式为...变量名），用于获取函数的多余参数，这样就不需要使用arguments对象了。
+        // rest 参数搭配的变量是一个数组，该变量将多余的参数放入数组中
+
+        // Iterator  遍历器
+
+
+
+    //    async 函数
+    //     ES2017 标准引入了 async 函数，使得异步操作变得更加方便。
+    //     async 函数是什么？一句话，它就是 Generator 函数的语法糖
+
+
+    //    Map和Set
+    //     JavaScript的默认对象表示方式{}可以视为其他语言中的Map或Dictionary的数据结构，即一组键值对
+    //     但是JavaScript的对象有个小问题，就是键必须是字符串。但实际上Number或者其他数据类型作为键也是非常合理的
+    //     为了解决这个问题，最新的ES6规范引入了新的数据类型Map
+
+        // Map是一组键值对的结构，具有极快的查找速度
+
+        // 举个例子，假设要根据同学的名字查找对应的成绩，如果用Array实现，需要两个Array
+        // var names = ['Michael', 'Bob', 'Tracy'];
+        // var scores = [95, 75, 85];
+        // 给定一个名字，要查找对应的成绩，就先要在names中找到对应的位置，再从scores取出对应的成绩，Array越长，耗时越长。
+
+        // 如果用Map实现，只需要一个“名字”-“成绩”的对照表，直接根据名字查找成绩，无论这个表有多大
+        // 查找速度都不会变慢。用JavaScript写一个Map如下
+        // var m = new Map([['Michael', 95], ['Bob', 75], ['Tracy', 85]]);
+        // m.get('Michael'); // 95
+        // 初始化Map需要一个二维数组，或者直接初始化一个空Map。Map具有以下方法
+        // var m = new Map(); // 空Map
+        // m.set('Adam', 67); // 添加新的key-value
+        // m.set('Bob', 59);
+        // m.has('Adam'); // 是否存在key 'Adam': true
+        // m.get('Adam'); // 67
+        // m.delete('Adam'); // 删除key 'Adam'
+        // m.get('Adam'); // undefined
+        // 由于一个key只能对应一个value，所以，多次对一个key放入value，后面的值会把前面的值冲掉
+        // var m = new Map();
+        // m.set('Adam', 67);
+        // m.set('Adam', 88);
+        // m.get('Adam'); // 88
+        //
+        // Set和Map类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在Set中，没有重复的key
+        // add(key)方法可以添加元素到Set中
+        // delete(key)方法可以删除元素：
+        // s.add(4);
+        // s; // Set {1, 2, 3, 4}
+        // s.add(4);
+        // s; // 仍然是 Set {1, 2, 3, 4}
+        //
+        // var s = new Set([1, 2, 3]);
+        // s; // Set {1, 2, 3}
+        // s.delete(3);
+        // s; // Set {1, 2}
+    </script>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css面试题</title>
+</head>
+<style>
+    input[type="search"]::-webkit-search-cancel-button{ -webkit-appearance: none;height: 15px; width: 15px;border-radius: 8px;background:url("images/searchicon.png") no-repeat 0 0;background-size: 15px 15px;}
+</style>
+<body>
+    <input type="text">
+    <!-- 介绍一下标准的css的盒子模型？低版本IE的盒子模型有什么不同？ -->
+    <!-- 介绍一下标准的css的盒子模型？低版本IE的盒子模型有什么不同？？ -->
+
+    内容区域: 可以放置元素的区域如文本,图像等，一般设置宽高指的是这个内容的宽高
+    内边距的区域：内容与边框之间的距离
+    边框区域: 边框
+    外边框区域：由外边框限制，用空白区域扩展边框区域，开分开相邻的元素
+
+    标准表型指的是设置box-sizing为content-box的盒子模型，一般width,height指的是content的宽高
+    IE盒模型指的是box-sizing为border-box的盒子。宽高的计算是content+padding+border;
+    准盒模型的内容大小就是content的大小。IE的则是content + padding +border 
+
+    设置这两种模型呢？？？
+    box-sizing:content-box(W3C)/border-box(IE)就可以达到自由切换的效果
+
+    什么是边距重叠？什么情况下会发生边距重叠？如何解决边距重叠？
+    两个box如果都设置了边距，那么在垂直方向上，两个box的边距会发生重叠，以绝对值大的那个为最终结果显示在页面上。
+    父子关系的边距重叠：
+
+  1.  父子关系，如果子元素设置了外边距，在没有把父元素变成BFC的情况下，父元素也会产生外边距，
+    给父元素添加 overflow：hidden 这样父元素就变为 BFC，不会随子元素产生外边距，但是父元素的高会变化。 -->
+
+  2.  同级元素在垂直方向上外边距会出现重叠情况，最后外边距的大小取两者绝对值大的那个
+
+  BFC就是“块级格式化上下文”的意思？？？？？
+  BFC原理：BFC内部的盒子，会在垂直方向，一个接一个地放置。垂直方向上也会发生边距重叠
+  BFC就是页面上的一个独立容器，容器里面的子元素不会影响到外面的元素，外边的也不会影响里边的
+  BFC的区域不会与float box重叠
+  计算BFC的高度时，浮动元素也被计算在内。
+
+  BFC如何产生？
+  overflow: auto/ hidden;
+  position: absolute/ fixed;
+- float: left/ right;
+- display: inline-block/ table-cell/ table-caption/ flex/ inline-flex
+
+
+CSS选择符有哪些？那些属于可以继承？
+id选择器(#myid)
+类选择器(.myclassName)
+标签选择器(div,h1,p)
+子代选择器(ul>li)
+后代选择器(li a)
+通配符选择器(*)
+属性选择器(a[rel="external"])
+伪类选择器(a:hover,li:nth-child)
+
+可继承的样式： font-size font-family color
+
+不可继承的样式： border padding margin height width
+
+!important >id >class >tag
+!important 比内联优先级高
+
+position的值releave和absolute定位远点是？
+absolute 生成绝对定位元素，相对与值部位static的第一个父元素进行定位 //相对定位：相对定位是相对于元素在文档中的初始位置
+fixed 生成绝对的元素，相对于浏览器窗口进行定位
+relative 生成相对定位的元素，相对于其正常位置进行定位  //绝对定位：是相对于元素最近的已定位的祖先元素
+static 默认值。没有定位，元素出现在正常出现的流中
+inherit 规定从父元素继承position属性的值
+
+文字换行：
+word-break:normal
+
+文字超出显示省略号
+overflow: hidden;
+white-space: nowrap;
+text-overflow:ellipsis;
+
+多行省略号：
+overflow:hiden;
+text-overflow:ellipsis;用省略号"..."隐藏超出范围的文本
+display:-webkit-box;  //将对象作为弹性伸缩盒子模型显示
+-webkit-line-clamp:2; //用来限制在一个块元素显示的文本的行数
+-webkit-box-orient:vertical;设置弹性盒对象的子元素的排列方式
+
+文字阴影：
+text-shadow: 水平阴影 垂直阴影 模糊阴影 阴影颜色
+
+
+圆角：n1-n4 四个值得顺序是左上角，右上角，右下角，左下角
+border-radius: n1 n2 n3 n4;
+
+阴影
+text-shadow: 水平阴影 垂直阴影 模糊阴影 阴影颜色
+
+经常遇到的浏览器的兼容性问题有哪些，原因，解决方法是什么？？
+png24位的图片在Ie6浏览器上出现背景。解决方案是做成png8
+浏览器默认的margin和padding不同。解决方案是假一个全局的*{margin:0;padding:0}来统一
+IE6双边距bug；矿属性变迁float后，又有横向的margin情况下，在Ie6显示margin比设置的大。
+解决方案是在float的标签控制中加入display:inline；将其妆花为行内渐进识别的方式，从总体中逐步排除局部
+
+chrome中文界面默认或将小于12px的文本强制按照12px的文本强制按照12px显示，
+可通过加入css属性 -webkit-text-size-adjust:none 解决
+
+怎么让Chrome支持小于12px 的文字？
+这个我们在做移动端的时候，设计师图片上的文字假如是10px，我们实现在网页上之后。往往设计师回来找我们，这个字体能小一些吗？我设计的是10px？为啥是12px?其实我们都知道，谷歌Chrome最小字体是12px，不管你设置成8px还是10px，在浏览器中只会显示12px，那么如何解决这个坑爹的问题呢？
+针对谷歌浏览器内核，加webkit前缀，用transform:scale()这个属性进行缩放！
+-webkit-transform:scale(0.8)  //缩放
+
+请解释一下为什么需要清浮动？清浮动的方式
+清浮动是为了清除使用浮动元素产生的影响。浮动的元素，高度会塌陷，而高度的塌陷使页面后面的布局不能正常显示
+父级div定义height
+在浮动元素后面添加class为clear的空div元素，给这个div设置样式.clear{clear:both}
+给父容器添加overflow:hidden或者auto样式
+给父容器添加clearfix的class，用伪类clearfix:after；来这个样式。清除浮动
+
+
+什么是伪类，什么是伪元素，他们的区别？
+伪类的受体是文档树中已有的元素，而伪元素则创建了一个DOM外的元素
+伪类用于添加元素的特殊效果，而伪元素则是添加元素的内容
+伪类使用的一个冒号，为元素使用两个冒号
+伪类更常用一些简单的动画或者交互的样式，例如滑入滑出，而为伪元素更常用语字体图标，清除浮动等
+
+什么是外边距合并？
+外边距合并指的是，当两个垂直外边距相遇时，他们将形成一个外边距。合并后的外边距的高度等于两个发生合并的外边距的高度中较大者
+
+文字水平居中？
+直接使用text-align:center即可
+
+单行文本垂直居中？
+子元素设置  line-height：父元素高度的 50%
+
+多文本居中  display：table  子元素：display：table-cell  vertival-align：middle；
+
+ flex 居中 
+ display：flex ；
+ align-items：center；
+ justify-content：center；
+ margin：auto；
+
+ img 的title 和alt 有什么区别？
+ alt是图片加载失败时，显示在网页上的替代文字；
+title是鼠标放上面时显示的文字。
+alt是img必要的属性，而title不是。
+
+
+从浏览器地址栏输入url到显示页面的步骤？？
+浏览器根据请求的URL交给DNS域名解析，找到真实IP，向服务器发起请求；
+服务器交给后台处理完成后返回数据，浏览器接收文件（HTML、JS、CSS、图象等）；
+浏览器对加载到的资源（HTML、JS、CSS等）进行语法解析，建立相应的内部数据结构（如HTML的DOM）；
+载入解析到的资源文件，渲染页面，完成。
+
+渲染优化
+1、使用CSS3代码代替
+2、页面中空的href和 src会阻塞页面其他资源的加载 (阻塞下载进程)
+3、用innerHTML代替DOM操作，减少DOM操作次数，优化javascript性能
+
+4、当需要设置的样式很多时设置className而不是直接操作style
+
+5、少用全局变量、缓存DOM节点查找的结果。减少IO读取操作
+
+6、图片预加载，将样式表放在顶部，将脚本放在底部 加上时间戳
+
+
+CSS3新增伪类有那些？
+:after在元素之前添加内容,也可以用来做清除浮动。
+:before在元素之后添加内容。
+:enabled已启用的表单元素。
+:disabled已禁用的表单元素。
+:checked单选框或复选框被选中
+
+
+为什么要初始化CSS样式?
+因为浏览器的兼容问题，不同浏览器对有些标签的默认值是不同的，如果没对CSS初始化往往会出现浏览器之间的页面显示差异。
+当然，初始化样式会对SEO有一定的影响，但鱼和熊掌不可兼得，但力求影响最小的情况下初始化
+
+垂直居中有哪些方法？
+单行文本的话可以使用height和line-height设置同一高度。
+position+margin：设置父元素:position: relative;，子元素height: 100px;position:absolute;top: 50%; margin: -50px 0 0 0;（定高）
+position+transform：设置父元素position:relative,子元素：position: absolute;top: 50%;transform: translate(0, -50%);（不定高）
+百搭flex布局(ie10+)，设置父元素display:flex;align-items: center;（不定高）
+
+水平居中的方法
+元素为行内元素，设置父元素text-align:center
+如果元素宽度固定，可以设置左右margin为auto;
+如果元素为绝对定位，设置父元素position为relative，元素设left:0;right:0;margin:auto;
+使用flex-box布局，指定justify-content属性为centerdisplay设置为tabel-ceil
+
+
+Flex布局
+display: flex  //设置Flex模式
+flex-direction: column  //决定元素是横排还是竖着排
+flex-wrap: wrap     //决定元素换行格式
+justify-content: space-between  //同一排下对齐方式，空格如何隔开各个元素
+align-items: center     //同一排下元素如何对齐
+align-content: space-between    //多行对齐方式
+
+知道css有个content属性吗？有什么作用？有什么应用行·
+css的content属性专门应用在 before/after伪元素上，用于来插入生成内容。最常见的应用是利用伪类清除浮动
+
+CSS3动画（简单动画的实现，如旋转等）
+
+依靠CSS3中提出的三个属性：transition、transform、animation
+transition：定义了元素在变化过程中是怎么样的，包含transition-property、transition-duration、transition-timing-function、transition-delay。
+transform：定义元素的变化结果，包含rotate、scale、skew、translate。
+animation：动画定义了动作的每一帧（@keyframes）有什么效果，包括animation-name，animation-duration、animation-timing-function、animation-delay、animation-iteration-count、animation-direction
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>操作数组和对象</title>
+</head>
+<body>
+<script>
+//       js Array 数组对象常见方法总结
+//        1、concat()方法
+//       concat() 方法用于合并两个或多个数组。它不会更改现有数组，而是返回一个新数组
+        let arr1 = [1,2,3]
+        let arr2 = [4,5,6]
+        let arr3 = arr1.concat(arr2,6,[12,32])
+        // 2、join()方法
+// join方法通过指定的分隔符将数组连接成字符串。默认的分隔符（逗号）","。它返回一个所有数组元素连接的字符串。
+        var arr11=["hello","world","aha!"];
+        document.write(arr11.join()); //默认为逗号分隔 输出 hello,world,aha!为字符串类型的
+        var arr12=["hello","world","aha!"];
+        document.write(arr1.join("-"));//hello-world-aha!
+        // pop()方法：
+        // 删除数组的最后一个元素，并且返回删除的元素值。
+        // shift()方法：
+        // 删除数组的第一个元素，并且返回删除的元素值。
+        // push()方法：
+        // 将一个或多个元素添加到数组的末尾，并返回数组的新长度。
+        // unshift()：
+        // 将一个或多个元素添加到数组的开头，并返回新数组的长度。
+        // reverse() 方法
+        // 将数组中元素的位置颠倒。返回该数组的引用
+        // sort()方法
+        // 对数组的元素进行排序，并返回数组。如果不提供参数，默认排序顺序是根据字符串Unicode码点。
+        // 其他标准排序要提供一个比较函数进行排序。返回返回排序后的数组。原数组已经被排序后的数组代替。
+         var arr13=[6,2,20,5,8,3];
+         console.log(arr13.sort()) //[2, 20, 3, 5, 6, 8]
+         function compareNums(a,b){return a-b;}   //按照升序
+         function compareNums(a,b){return b-a;}   //按照降序
+         console.log(arr13.sort(compareNums))   //[2, 3, 5, 6, 8, 20]
+
+        // slice()方法
+        // 返回一个从开始到结束（不包括结束）选择形成的数组。原始数组不会被修改，而返回一个新数组。
+        // arr.slice(start,end)
+        // start为负数则从数组倒数的位置开始，-1表示最后一个元素。如果省略start，则索引从0开始  省略end,则一直提取到数组末尾。
+        var arr14=[6,2,20,想5,8,3];
+        document.write(arr14.slice(-3,-1));//5，8
+        var arr15=[6,2,20,5,8,3];
+        document.write(arr15.slice());//6,2,20,5,8,3
+
+        // splice()方法
+        // 向数组中添加/删除项目，然后返回被删除的项目。该方法与slice不同的是，它会修改原始的数组。
+        // splice(start,deleteCount,items)
+        // start：指定修改的开始位置。如果超出了数组的长度，则从数组末尾开始添加内容；如果是负值，则表示从数组末位开始的第几位。
+        // deleteCount：可选参数，表示删除的元素个数，等于0表示不移除元素。
+        // items：要添加进数组的元素。
+        var arr16=[6,2,20,5,8,3];
+        document.write(arr16.splice(1,0,"33"));//不移除元素
+        document.write(arr16);//6,33,2,20,5,8,3  原始数组改变
+
+        // toString()
+        // 方法可把数组转换为字符串，并返回结果。
+        //     Array对象覆盖了 Object的 toString 方法。
+        //     对于数组对象的toString 方法返回一个字符串，该字符串由数组中的每个元素的 toString()
+//     返回值经调用 join() 方法连接（由逗号隔开）组成。
+
+        // indexOf方法
+        // 返回在数组中可以找到一个给定元素的第一个索引，如果不存在，则返回-1
+        // arr.indexOf(searchElement,fromIndex)；
+        // searchElement 表示要查找的元素。
+        // fromIndex 表示开始查找的位置。默认为0，表示从头开始查找；如果该索引值大于或等于数组长度，意味着不会在数组里查找，返回-1。
+        // 负数的话表示从末尾开始，-1表示最后一个元素。
+
+        // map()方法：
+        // map表示“映射”，它会创建一个新数组，其结果是该数组中的每个元素都调用回调函数后返回的结果。
+        var arr17=[20,30,40,50];
+        var result=arr17.map(function(value){return value/10});
+        console.log(result);//2,3,4,5
+
+        // filter()方法
+        // 该方法创建一个新数组, 其包含通过所提供函数实现的测试的所有元素。如果数组中的元素执行回调函数返回true，则保留该元素，false不保留。
+
+        // forEach()方法
+        // 该方法对数组的每个元素执行回调函数。相当于传统的循环遍历数组。返回值为undefined.
+
+        // reduce方法
+        // 该方法对累加器和数组中的每个元素 (从左到右)应用一个函数，将其减少为单个值。
+    </script>
+</body>
+</html>

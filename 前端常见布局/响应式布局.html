@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>响应式布局</title>
+</head>
+<body>
+<!--   响应式布局 意在实现不同屏幕分辨率的终端上浏览网页的不同展示方式。通过响应式设计能使网站在手机和平板电脑上有更好的浏览阅读体验-->
+<!--响应式设计的步骤-->
+<!--1. 设置 Meta 标签-->
+<!--大多数移动浏览器将HTML页面放大为宽的视图（viewport）以符合屏幕分辨率。你可以使用视图的meta标签来进行重置。-->
+<!--下面的视图标签告诉浏览器，使用设备的宽度作为视图宽度并禁止初始的缩放。在<head>标签里加入这个meta标签-->
+
+<!--<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">-->
+<!--
+    user-scalable = no 属性能够解决 iPad 切换横屏之后触摸才能回到具体尺寸的问题
+    Media Queries 是响应式设计的核心。
+    /** iPad **/
+    @media only screen and (min-width: 768px) and (max-width: 1024px) {}
+    /** iPhone **/
+    @media only screen and (min-width: 320px) and (max-width: 767px) {}
+
+    宽度需要使用百分比
+    #head { width: 100% }
+    #content { width: 50%; }
+    处理图片缩放的方法：
+    简单的解决方法可以使用百分比，但这样不友好，会放大或者缩小图片。那么可以尝试给图片指定的最大宽度为百分比。
+    假如图片超过了，就缩小。假如图片小了，就原尺寸输出
+    img { width: auto; max-width: 100%; }
+    用::before和::after伪元素 +content 属性来动态显示一些内容或者做其它很酷的事情，
+    在 css3 中，任何元素都可以使用 content 属性了，这个方法就是结合 css3 的 attr 属性和 HTML 自定义属性的功能： HTML 结构：
+    <img src="image.jpg"
+     data-src-600px="image-600px.jpg"
+     data-src-800px="image-800px.jpg"
+     alt="">
+     @media (min-device-width:600px) {
+    img[data-src-600px] {
+        content: attr(data-src-600px, url);
+    }
+}
+
+@media (min-device-width:800px) {
+    img[data-src-800px] {
+        content: attr(data-src-800px, url);
+    }
+}
+-->
+
+<!--
+
+-->
+</body>
+</html>
